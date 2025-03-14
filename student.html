@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway&display=swap"
+      rel="stylesheet"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Studente</title>
+    <script>
+      let ws = new WebSocket("ws://localhost:8080");
+      let userId = Math.random().toString(36).substr(2, 9);
+      let rispostaData = false;
+
+      ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.type === "status") {
+          document.getElementById("domandaCorrente").innerText =
+            "Domanda " + data.domandaAttuale;
+          document.getElementById("risultati").innerHTML = renderResults(
+            data.responses
+          );
+          enableButtons();
+        } else if (data.type === "update") {
+          document.getElementById("risultati").innerHTML = renderResults(
+            data.responses
+          );
+        }
+        let rispostaData = false;
+      };
+
+      function vote(choice) {
+        ws.send(JSON.stringify({ type: "vote", choice, userId }));
+        document.getElementById("selectedAnswer").innerText =
+          "Hai scelto: " + choice;
+        disableButtons();
+        rispostaData = true;
+      }
+
+      function renderResults(results) {
+        let html = "";
+        let totaleRisposte = 0;
+        for (let domanda in results) {
+          totaleRisposte =
+            results[domanda].A +
+            results[domanda].B +
+            results[domanda].C +
+            results[domanda].D;
+          html += `<span class="domandaSpan">${domanda} </span><span class="risposteSpan">A:${results[domanda].A}, B:${results[domanda].B}, C:${results[domanda].C}, D:${results[domanda].D} | Totale risposte:${totaleRisposte}</span><br>`;
+        }
+        console.log(results);
+        return html;
+      }
+
+      function disableButtons() {
+        document
+          .querySelectorAll("button.answer")
+          .forEach((btn) => (btn.disabled = true));
+      }
+
+      function enableButtons() {
+        document
+          .querySelectorAll("button.answer")
+          .forEach((btn) => (btn.disabled = false));
+        document.getElementById("selectedAnswer").innerText = "";
+      }
+    </script>
+    <link rel="stylesheet" href="student.css" />
+  </head>
+  <body>
+    <div class="main">
+      <h1>Risposte Quiz</h1>
+
+      <div id="studentPanel">
+        <h2 id="domandaCorrente">Domanda 1</h2>
+        <button class="answer" onclick="vote('A')">A</button>
+        <button class="answer" onclick="vote('B')">B</button>
+        <button class="answer" onclick="vote('C')">C</button>
+        <button class="answer" onclick="vote('D')">D</button>
+        <h3 id="selectedAnswer"></h3>
+      </div>
+
+      <h2>Risultati in Tempo Reale</h2>
+      <div id="risultati"></div>
+    </div>
+  </body>
+</html>
