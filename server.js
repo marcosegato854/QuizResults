@@ -10,10 +10,8 @@ const wss = new WebSocket.Server({ server });
 
 const PORT = 3000;
 
-// Servire file statici dalla cartella "public"
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Reindirizza tutte le richieste alla pagina index.html
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -22,8 +20,8 @@ app.get('*', (req, res) => {
 let numDomande = 0;
 let domandaAttuale = 1;
 let votazioneAttiva = false;
-let responses = {}; // Risultati per ogni domanda
-let utentiVotanti = {}; // Tiene traccia di chi ha votato per ogni domanda
+let responses = {};
+let utentiVotanti = {};
 let date = new Date();
 let month = date.getMonth() + 1;
 let totalDate = date.getDate() + "-" + month + "-" + date.getFullYear();
@@ -38,7 +36,6 @@ function generateToken() {
 wss.on('connection', (ws) => {
     console.log('Nuovo utente connesso');
 
-    // Invia lo stato attuale
     ws.send(JSON.stringify({ type: 'status', numDomande, domandaAttuale, votazioneAttiva, responses }));
 
     ws.on('message', (message) => {
@@ -69,13 +66,12 @@ wss.on('connection', (ws) => {
                 } else if (data.action === 'next') {
                     if (domandaAttuale < numDomande) {
                         domandaAttuale++;
-                        utentiVotanti = {}; // Reset utenti votanti per la nuova domanda
+                        utentiVotanti = {};
                         broadcast({ type: 'status', domandaAttuale, responses });
                     } else {
                         votazioneAttiva = false;
                         broadcast({ type: 'status', votazioneAttiva });
 
-                        // Salva le risposte in un file JSON
                         const fileData = JSON.stringify(responses, null, 2);
                         fs.writeFileSync(`risultati_${materia}_${totalDate}.json`, fileData);
                         console.log(`Risultati salvati in risultati_${materia}_${totalDate}.json`);
@@ -84,7 +80,6 @@ wss.on('connection', (ws) => {
                     votazioneAttiva = false;
                     broadcast({ type: 'status', votazioneAttiva });
 
-                    // Salva le risposte in un file JSON
                     const fileData = JSON.stringify(responses, null, 2);
                     fs.writeFileSync(`risultati_${materia}_${totalDate}.json`, fileData);
                     console.log(`Risultati salvati in risultati_${materia}_${totalDate}.json`);

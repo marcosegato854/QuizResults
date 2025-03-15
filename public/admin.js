@@ -41,7 +41,6 @@ function startQuiz() {
     })
   );
 
-  // 🔥 Disattiva "Avvia Quiz" e attiva gli altri
   document.getElementById("btnStart").disabled = true;
   document.getElementById("btnNext").disabled = false;
   document.getElementById("btnStop").disabled = false;
@@ -58,7 +57,6 @@ function stopQuiz() {
     JSON.stringify({ type: "admin", action: "stop", token: adminToken })
   );
 
-  // Riattiva "Avvia Quiz" e disattiva gli altri
   document.getElementById("btnStart").disabled = false;
   document.getElementById("btnNext").disabled = true;
   document.getElementById("btnStop").disabled = true;
@@ -67,7 +65,6 @@ function stopQuiz() {
 function aggiornaStatoPulsanti(data) {
   let btnNext = document.getElementById("btnNext");
 
-  // Disattiva "Prossima Domanda" se siamo all'ultima domanda
   btnNext.disabled = data.domandaAttuale >= data.numDomande;
 }
 
