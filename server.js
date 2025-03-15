@@ -1,9 +1,24 @@
 const WebSocket = require('ws');
+const express = require('express');
 const fs = require('fs');
 const crypto = require('crypto');
+const path = require('path');
 
-const server = new WebSocket.Server({ port: 8080, host: '0.0.0.0' });
+const app = express();
+const server = require('http').createServer(app);
+const wss = new WebSocket.Server({ server });
 
+const PORT = 3000;
+
+// Servire file statici dalla cartella "public"
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Reindirizza tutte le richieste alla pagina index.html
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// WebSocket
 let numDomande = 0;
 let domandaAttuale = 1;
 let votazioneAttiva = false;
@@ -20,7 +35,7 @@ function generateToken() {
     return crypto.randomBytes(16).toString('hex');
 }
 
-server.on('connection', (ws) => {
+wss.on('connection', (ws) => {
     console.log('Nuovo utente connesso');
 
     // Invia lo stato attuale
@@ -96,11 +111,13 @@ server.on('connection', (ws) => {
 });
 
 function broadcast(data) {
-    server.clients.forEach(client => {
+    wss.clients.forEach(client => {
         if (client.readyState === WebSocket.OPEN) {
             client.send(JSON.stringify(data));
         }
     });
 }
 
-console.log("Server WebSocket avviato sulla porta 8080 e accessibile da qualsiasi dispositivo nella rete.");
+server.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server avviato su http://0.0.0.0:${PORT}`);
+});

@@ -1,0 +1,57 @@
+:root{
+    --black: #03071E;
+    --dark-primary: #0096C7;
+    --primary: #00B4D8;
+    --light-primary: #48CAE4;
+    --secondary: #90E0EF;
+    --light-secondary: #ADE8F4;
+    --grey: #ced4da;
+    --light-grey: #dee2e6 ;
+    --white: #FFFFFF;
+    --wallpaper: #e9ecef;
+}
+
+body{
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    background-color: var(--wallpaper);
+    height: 90vh;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--black);
+}
+
+.main{
+    background-color: var(--white);
+    padding: 3em;
+    border-radius: 1em;
+    text-align: center;
+}
+
+input{
+    padding: 1em;
+    border: transparent;
+    border-radius: 1em;
+    background-color: var(--light-primary);
+    color: var(--black);
+    font-size: large;
+    font-weight: bold;
+}
+
+input:hover{
+    cursor: pointer;
+    background-color: var(--dark-primary);
+    color: var(--white);
+}
+
+.buttons{
+    text-align: center;
+}
+
+h3{
+    font-size: larger;
+}

@@ -1,0 +1,116 @@
+:root{
+    --black: #03071E;
+    --dark-primary: #0096C7;
+    --primary: #00B4D8;
+    --light-primary: #48CAE4;
+    --secondary: #90E0EF;
+    --light-secondary: #ADE8F4;
+    --grey: #ced4da;
+    --light-grey: #dee2e6 ;
+    --white: #FFFFFF;
+    --wallpaper: #e9ecef;
+}
+
+body{
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    background-color: var(--wallpaper);
+    height: 90vh;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--black);
+}
+
+.main{
+    background-color: var(--white);
+    padding: 3em;
+    border-radius: 1em;
+    text-align: center;
+}
+
+input[type='password'] {
+    font-family: Verdana;
+    letter-spacing: 0.125em;
+    width: fit-content;
+    padding: 1em;
+    background-color: var(--grey);
+    border: transparent;
+}
+
+input[type='password']::placeholder {
+    font-family: "Raleway", sans-serif;
+    letter-spacing: 0;
+}
+
+.loginBtn{
+    padding: 1em;
+    border: transparent;
+    background-color: var(--primary);
+}
+
+.loginBtn:hover{
+    background-color: var(--dark-primary);
+    cursor: pointer;
+}
+
+.inputs{
+    display: flex;
+    justify-content: center;
+}
+
+button{
+    padding: 0.6em;
+    margin: 0.5em;
+    border-radius: 0.2em;
+    border: transparent;
+}
+
+.startBtn{
+    background-color: rgb(153, 255, 0);
+}
+
+.startBtn:hover{
+    background-color: rgb(10, 196, 10);
+    cursor: pointer;
+}
+
+.nextBtn{
+background-color: var(--primary);
+}
+
+.nextBtn:hover{
+    background-color:var(--dark-primary);
+    cursor: pointer;
+}
+
+.stopBtn{
+background-color: rgb(255, 0, 0);
+}
+
+.stopBtn:hover{
+    background-color: rgb(216, 8, 8);
+    cursor: pointer;
+}
+
+button:disabled{
+    background-color: var(--light-grey);
+    color: var(--grey);
+    cursor:not-allowed;
+}
+
+button:disabled:hover{
+    background-color: var(--light-grey);
+    color: var(--grey);
+    cursor:not-allowed;
+}
+
+input{
+    border: transparent;
+    background-color: var(--light-grey);
+    padding: 0.3em;
+    border-radius: 0.2em;
+}
