@@ -28,7 +28,7 @@ let date = new Date();
 let month = date.getMonth() + 1;
 let totalDate = date.getDate() + "-" + month + "-" + date.getFullYear();
 
-const adminPassword = "m";
+const adminPassword = "unapasswordmoltosicura";
 let adminToken = null;
 
 function generateToken() {
